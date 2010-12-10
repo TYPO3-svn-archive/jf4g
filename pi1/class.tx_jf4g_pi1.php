@@ -102,31 +102,31 @@ class tx_jf4g_pi1 extends tslib_pibase
 		if ($this->contentKey == '') {
 			$this->contentKey = "jf4g_key";
 		}
-
-		// Select all pages 
-		$query = $GLOBALS['TYPO3_DB']->SELECTquery(
-			'*',
-			'pages',
-			'doktype=30 AND tx_jf4g_publish=1 AND uid IN ('.implode(',', $GLOBALS['TYPO3_DB']->fullQuoteArray(t3lib_div::trimExplode(',', $this->conf['storys'], true), 'pages')).')',
-			'',
-			'title',
-			''
-		);
-		$res = $GLOBALS['TYPO3_DB']->sql_query($query);
+		// Select all pages
+		$pages = t3lib_div::trimExplode(',', $this->conf['storys'], true);
 		$GLOBALS['TSFE']->register['key'] = $this->contentKey;
-		$GLOBALS['TSFE']->register['PAGE_NUM_CURRENT'] = 0;
-		$GLOBALS['TSFE']->register['PAGE_COUNT'] = count($images);
-		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-			$GLOBALS['TSFE']->register['IMAGE_NUM_CURRENT'] ++;
-			$templateCode .= "{$row['title']} ({$row['tx_jf4g_mystory']})"."<br/>";
+		if (count($pages) > 0) {
+			foreach ($pages as $page) {
+				$query = $GLOBALS['TYPO3_DB']->SELECTquery(
+					'*',
+					'pages',
+					'doktype=30 AND tx_jf4g_publish=1 AND uid = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($page, 'pages'),
+					'',
+					'title',
+					''
+				);
+				$res = $GLOBALS['TYPO3_DB']->sql_query($query);
+				$GLOBALS['TSFE']->register['PAGE_NUM_CURRENT'] = 0;
+				while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+					$story_page = ($row['tx_jf4g_mystory'] ? $row['tx_jf4g_mystory'] : $row['uid']);
+					$GLOBALS['TSFE']->register['PAGE_NUM_CURRENT'] ++;
+					$GLOBALS['TSFE']->register['MY_STORY_PID']   = $story_page;
+					$GLOBALS['TSFE']->register['MY_STORY_TITLE'] = $row['title'];
+					$content_string = $this->cObj->cObjGetSingle($this->conf['content'], $this->conf['content.']);
+					$return_string .= $this->cObj->stdWrap($content_string, $this->conf['contentWrap.']);
+				}
+			}
 		}
-
-		// set the key
-		$markerArray = array();
-		$markerArray["KEY"] = $this->contentKey;
-		// set the markers
-		$return_string = $this->cObj->substituteMarkerArray($templateCode, $markerArray, '###|###', 0);
-
 		return $return_string;
 	}
 
