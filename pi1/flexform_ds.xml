@@ -1,0 +1,35 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<general>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:jf4g/locallang_db.xml:tt_content.pi_flexform.sheet_general</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<storys>
+						<TCEforms>
+							<label>LLL:EXT:jf4g/locallang_db.xml:tt_content.pi_flexform.storys</label>
+							<config>
+								<type>select</type>
+								<size>25</size>
+								<maxitems>1000</maxitems>
+								<itemsProcFunc>tx_jf4g_itemsProcFunc->getStorys</itemsProcFunc>
+								<!--
+								<wizards>
+									<suggest>
+										<type>suggest</type>
+									</suggest>
+								</wizards>
+								-->
+							</config>
+						</TCEforms>
+					</storys>
+				</el>
+			</ROOT>
+		</general>
+	</sheets>
+</T3DataStructure>

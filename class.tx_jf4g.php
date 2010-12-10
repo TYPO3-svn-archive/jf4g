@@ -78,14 +78,41 @@ class tx_jf4g
 	}
 
 	/**
-	 * Return the FElogin-Storage PID
+	 * Return the Calendar PID
 	 * @param $content
 	 * @param $conf
 	 * @return integer
 	 */
-	public function getFeloginStorePid($content, $conf)
+	public function getCalendarPid($content, $conf)
 	{
-		return $this->getFieldValue('tx_jf4g_feloginstorepid');
+		return $this->getFieldValue('tx_jf4g_calendarpid');
+	}
+
+	/**
+	 * 
+	 * @param $pObj
+	 * @param $obj
+	 * @return void
+	 */
+	public function setPageId($pObj, $obj)
+	{
+		$obj->fetch_the_id();
+		if ($obj->page['doktype'] == 30) {
+			$shortcut = $obj->getPageShortcut($obj->page['shortcut'], $obj->page['shortcut_mode'], $obj->page['uid']);
+			$pObj['pObj']->id = $shortcut['uid'];
+		}
+	}
+
+	/**
+	 * Render the ajax autocomplete
+	 * @param $params
+	 * @param $obj
+	 * @param $empty
+	 * @return string
+	 */
+	public function renderFEUser($params, $obj, $empty)
+	{
+		$params['entry']['text'] .= '<br /><span class="suggest-address">' . $params['row']['name'] . '<br />' . nl2br($params['row']['address']) . '<br />' . $params['row']['zip'] . $params['row']['city'] . '</span>';
 	}
 
 	/**

@@ -5,7 +5,7 @@ function user_jf4g($type='')
 		$pageUid = $GLOBALS['SOBE']->id;
 		$sysPageObj = t3lib_div::makeInstance('t3lib_pageSelect');
 		$rootline = $sysPageObj->getRootLine($pageUid);
-		if ($rootline[1]['uid']' == $pageUid) {
+		if ($rootline[1]['uid'] == $pageUid) {
 			return true;
 		}
 	}

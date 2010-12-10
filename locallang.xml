@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'jf4g'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="pi1_title">Storys</label>
+			<label index="pi1_plus_wiz_description">Add Storys of other members to your page</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="pi1_title">Geschichte</label>
+			<label index="pi1_plus_wiz_description">Fügen Sie die Geschichten anderer Mitglieder hinzu</label>
+		</languageKey>
+	</data>
+	<orig_hash type="array">
+	</orig_hash>
+	<orig_text type="array">
+	</orig_text>
+</T3locallang>
