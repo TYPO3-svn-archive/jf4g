@@ -6,7 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="pages.tx_jf4g_tab">4G Settings</label>
+			<label index="pages.tx_jf4g_tab">Settings</label>
 			<label index="pages.tx_jf4g_pin">My pin</label>
 			<label index="pages.tx_jf4g_allowedpin">Allowed pin</label>
 			<label index="pages.tx_jf4g_navigation">Servicenavigation PID</label>
@@ -29,7 +29,7 @@
 			<label index="tt_content.pi_flexform.storys">Storys to display</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="pages.tx_jf4g_tab">4G Einstellungen</label>
+			<label index="pages.tx_jf4g_tab">Einstellungen</label>
 			<label index="pages.tx_jf4g_pin">Mein Pin</label>
 			<label index="pages.tx_jf4g_allowedpin">Erlaubte pins</label>
 			<label index="pages.tx_jf4g_navigation">Servicenavigation-PID</label>

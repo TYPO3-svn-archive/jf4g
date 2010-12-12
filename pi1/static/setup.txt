@@ -1,44 +1,84 @@
 plugin.tx_jf4g_pi1 {
-	content = COA
-	content {
-		10 = TEXT
-		10 {
-			data = register:MY_STORY_TITLE
-			typolink {
-				parameter.data = register:MY_STORY_PID
+	singleView {
+		content = COA
+		content {
+			10 = TEXT
+			10 {
+				data = register:MY_STORY_TITLE
+				required = 1
+				wrap = <h1> | </h1>
 			}
-			required = 1
-			wrap = <h1> | </h1>
-		}
-		20 = CONTENT
-		20 {
-			table = tt_content
-			select {
-				orderBy = sorting
-				where = colPos=0
-				begin = 0
-				max = 1
-				pidInList.data = register:MY_STORY_PID
-				languageField = sys_language_uid
+			20 = CONTENT
+			20 {
+				table = tt_content
+				select {
+					orderBy = sorting
+					where = colPos=0
+					pidInList.data = register:MY_STORY_PID
+					languageField = sys_language_uid
+				}
+			}
+			30 = TEXT
+			30 {
+				data = LLL:EXT:jf4g/pi1/locallang.xml:pi1_back
+				typolink {
+					parameter.data = page:uid
+				}
+				required = 1
+				wrap = <strong> | </strong>
 			}
 		}
-		30 = TEXT
-		30 {
-			value = Lesen Sie mehr...
-			typolink {
-				parameter.data = register:MY_STORY_PID
-			}
-			required = 1
-			wrap = <h3><strong> | </strong></h3>
-		}
+		contentWrap.dataWrap = <div id="{register:key}"> | </div>
 	}
-	contentWrap.dataWrap = <div id="{register:key}" class="tx_jf4g-mystory"> | </div>
+	listView < .singleView
+	listView {
+		content = COA
+		content {
+			10 = TEXT
+			10 {
+				data = register:MY_STORY_TITLE
+				typolink {
+					parameter.data = page:uid
+					additionalParams {
+						data = register:ACT_PAGE
+						wrap = &tx_jf4g_pi1[story]= |
+					}
+					useCacheHash = 1
+				}
+				required = 1
+				wrap = <h1> | </h1>
+			}
+			20 = CONTENT
+			20 {
+				table = tt_content
+				select {
+					orderBy = sorting
+					where = colPos=0
+					begin = 0
+					max = 1
+					pidInList.data = register:MY_STORY_PID
+					languageField = sys_language_uid
+				}
+			}
+			30 < .10
+			30 {
+				data = LLL:EXT:jf4g/pi1/locallang.xml:pi1_readmore
+				wrap = <h3><strong> | </strong></h3>
+			}
+		}
+		contentWrap.dataWrap = <div id="{register:key}" class="tx_jf4g-mystory"> | </div>
+	}
+
 	_CSS_DEFAULT_STYLE (
 .tx_jf4g-mystory {
-	font-size: 0.8em;
+	font-size: 0.9em;
 	border: 1px solid #ddd;
 	padding: 10px;
 	margin-bottom: 10px;
+}
+.tx_jf4g-mystory .csc-default {
+	max-height: 150px;
+	overflow: hidden;
 }
 	)
 }

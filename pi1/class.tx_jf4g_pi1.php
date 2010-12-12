@@ -43,15 +43,16 @@ if (t3lib_extMgm::isLoaded('t3jquery')) {
  */
 class tx_jf4g_pi1 extends tslib_pibase
 {
-	var $prefixId      = 'tx_jf4g_pi1';
-	var $scriptRelPath = 'pi1/class.tx_jf4g_pi1.php';
-	var $extKey        = 'jf4g';
-	var $pi_checkCHash = true;
-	var $lConf = array();
-	var $contentKey = null;
-	var $jsFiles = array();
-	var $js = array();
-	var $css = array();
+	public $prefixId      = 'tx_jf4g_pi1';
+	public $scriptRelPath = 'pi1/class.tx_jf4g_pi1.php';
+	public $extKey        = 'jf4g';
+	public $pi_checkCHash = true;
+	private $lConf = array();
+	private $contentKey = null;
+	private $jsFiles = array();
+	private $js = array();
+	private $css = array();
+	private $view = null;
 
 	/**
 	 * The main method of the PlugIn
@@ -60,7 +61,7 @@ class tx_jf4g_pi1 extends tslib_pibase
 	 * @param	array		$conf: The PlugIn configuration
 	 * @return	The content that is displayed on the website
 	 */
-	function main($content, $conf)
+	public function main($content, $conf)
 	{
 		$this->conf = $conf;
 		$this->pi_setPiVarDefaults();
@@ -96,21 +97,29 @@ class tx_jf4g_pi1 extends tslib_pibase
 	 * Parse all images into the template
 	 * @return string
 	 */
-	function parseTemplate()
+	private function parseTemplate()
 	{
 		// define the contentKey if not exist
 		if ($this->contentKey == '') {
 			$this->contentKey = "jf4g_key";
 		}
 		// Select all pages
-		$pages = t3lib_div::trimExplode(',', $this->conf['storys'], true);
+		if ($this->piVars['story']) {
+			$this->view = 'singleView';
+			$pages = array($this->piVars['story']);
+		} else {
+			$this->view = 'listView';
+			$pages = t3lib_div::trimExplode(',', $this->conf['storys'], true);
+		}
+		
 		$GLOBALS['TSFE']->register['key'] = $this->contentKey;
 		if (count($pages) > 0) {
 			foreach ($pages as $page) {
+				$GLOBALS['TSFE']->register['ACT_PAGE'] = $page;
 				$query = $GLOBALS['TYPO3_DB']->SELECTquery(
 					'*',
 					'pages',
-					'doktype=30 AND tx_jf4g_publish=1 AND uid = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($page, 'pages'),
+					'doktype=30 AND tx_jf4g_publish=1 AND uid='.$GLOBALS['TYPO3_DB']->fullQuoteStr($page, 'pages'),
 					'',
 					'title',
 					''
@@ -122,8 +131,8 @@ class tx_jf4g_pi1 extends tslib_pibase
 					$GLOBALS['TSFE']->register['PAGE_NUM_CURRENT'] ++;
 					$GLOBALS['TSFE']->register['MY_STORY_PID']   = $story_page;
 					$GLOBALS['TSFE']->register['MY_STORY_TITLE'] = $row['title'];
-					$content_string = $this->cObj->cObjGetSingle($this->conf['content'], $this->conf['content.']);
-					$return_string .= $this->cObj->stdWrap($content_string, $this->conf['contentWrap.']);
+					$content_string = $this->cObj->cObjGetSingle($this->conf[$this->view.'.']['content'], $this->conf[$this->view.'.']['content.']);
+					$return_string .= $this->cObj->stdWrap($content_string, $this->conf[$this->view.'.']['contentWrap.']);
 				}
 			}
 		}

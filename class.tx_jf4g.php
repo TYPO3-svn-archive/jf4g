@@ -116,6 +116,23 @@ class tx_jf4g
 	}
 
 	/**
+	 * Logoff the user if not allowed othis site...
+	 * @param $params
+	 * @param $obj
+	 * @return string
+	 */
+	public function checkAccess($params, $obj)
+	{
+		$obj->fetch_the_id();
+		if ($obj->rootLine[1]['tx_jf4g_allowedpin']) {
+			$allowedPins = t3lib_div::trimExplode(',', $obj->rootLine[1]['tx_jf4g_allowedpin'], true);
+			if (! in_array($obj->fe_user->user['uid'], $allowedPins)) {
+				$obj->fe_user->logoff();
+			}
+		}
+	}
+
+	/**
 	 * Return the requested value from rootline 1
 	 * @param $key
 	 * @return string
