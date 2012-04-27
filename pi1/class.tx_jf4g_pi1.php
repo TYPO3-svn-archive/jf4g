@@ -140,7 +140,7 @@ class tx_jf4g_pi1 extends tslib_pibase
 	 */
 	function addResources()
 	{
-		if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
+		if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4003000) {
 			$pagerender = $GLOBALS['TSFE']->getPageRenderer();
 		}
 		// Fix moveJsFromHeaderToFooter (add all scripts to the footer)
@@ -162,7 +162,7 @@ class tx_jf4g_pi1 extends tslib_pibase
 				} else {
 					$file = $this->getPath($jsToLoad);
 					if ($file) {
-						if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
+						if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4003000) {
 							if ($this->conf['jsInFooter'] || $allJsInFooter) {
 								$pagerender->addJsFooterFile($file, 'text/javascript', $this->conf['jsMinify']);
 							} else {
@@ -189,7 +189,7 @@ class tx_jf4g_pi1 extends tslib_pibase
 			}
 			$conf = array();
 			$conf['jsdata'] = $temp_js;
-			if (T3JQUERY === true && t3lib_div::int_from_ver($this->getExtensionVersion('t3jquery')) >= 1002000) {
+			if (T3JQUERY === true && t3lib_utility_VersionNumber::convertVersionNumberToInteger($this->getExtensionVersion('t3jquery')) >= 1002000) {
 				$conf['tofooter'] = ($this->conf['jsInFooter'] || $allJsInFooter);
 				$conf['jsminify'] = $this->conf['jsMinify'];
 				$conf['jsinline'] = $this->conf['jsInline'];
@@ -199,7 +199,7 @@ class tx_jf4g_pi1 extends tslib_pibase
 				$hash = md5($temp_js);
 				if ($this->conf['jsInline']) {
 					$GLOBALS['TSFE']->inlineJS[$hash] = $temp_js;
-				} elseif (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
+				} elseif (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4003000) {
 					if ($this->conf['jsInFooter'] || $allJsInFooter) {
 						$pagerender->addJsFooterInlineCode($hash, $temp_js, $this->conf['jsMinify']);
 					} else {
@@ -223,7 +223,7 @@ class tx_jf4g_pi1 extends tslib_pibase
 				// Add script only once
 				$file = $this->getPath($cssToLoad);
 				if ($file) {
-					if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
+					if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4003000) {
 						$pagerender->addCssFile($file, 'stylesheet', 'all', '', $this->conf['cssMinify']);
 					} else {
 						$GLOBALS['TSFE']->additionalHeaderData['cssFile_'.$this->extKey.'_'.$file] = '<link rel="stylesheet" type="text/css" href="'.$file.'" media="all" />'.chr(10);
@@ -239,7 +239,7 @@ class tx_jf4g_pi1 extends tslib_pibase
 				$temp_css .= $cssToPut;
 			}
 			$hash = md5($temp_css);
-			if (t3lib_div::int_from_ver(TYPO3_version) >= 4003000) {
+			if (t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version) >= 4003000) {
 				$pagerender->addCssInlineBlock($hash, $temp_css, $this->conf['cssMinify']);
 			} else {
 				// addCssInlineBlock
